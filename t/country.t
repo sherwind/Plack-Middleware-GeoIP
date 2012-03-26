@@ -6,12 +6,12 @@ use Plack::Builder;
 use Plack::Request;
 use HTTP::Request::Common;
 
-my $Geoip_database;
+my $Country_db;
 foreach my $file ('GeoIP.dat', '/usr/share/GeoIP/GeoIP.dat', '/var/lib/GeoIP/GeoIP.dat', '/usr/local/share/GeoIP/GeoIP.dat') {
-    $Geoip_database = $file, last if -f $file;
+    $Country_db = $file, last if -f $file;
 }
 
-unless ($Geoip_database) {
+unless ($Country_db) {
     plan skip_all => 'No GeoIP.dat found';
 }
 
@@ -24,7 +24,7 @@ sub run_scalar {
             sub { $_[0]->{REMOTE_ADDR} = $remote_addr; $app->($_[0]) }; # fake remote address
         };
         enable 'Plack::Middleware::GeoIP',
-            GeoIPDBFile => $Geoip_database;
+            GeoIPDBFile => $Country_db;
         sub { return [ 200, [ 'Content-Type' => 'text/plain' ], [ $_[0]->{GEOIP_COUNTRY_CODE} ] ] };
     };
 
@@ -45,7 +45,7 @@ sub run_noflag {
         };
         enable 'Plack::Middleware::GeoIP',
             GeoIPDBFile => [
-                               $Geoip_database,
+                               $Country_db,
                            ];
         sub { return [ 200, [ 'Content-Type' => 'text/plain' ], [ $_[0]->{GEOIP_COUNTRY_CODE} ] ] };
     };
@@ -67,7 +67,7 @@ sub run_oneflag {
         };
         enable 'Plack::Middleware::GeoIP',
             GeoIPDBFile => [
-                               [ $Geoip_database, 'MemoryCache' ],
+                               [ $Country_db, 'MemoryCache' ],
                            ];
         sub { return [ 200, [ 'Content-Type' => 'text/plain' ], [ $_[0]->{GEOIP_COUNTRY_CODE} ] ] };
     };
@@ -89,7 +89,7 @@ sub run_multiflag {
         };
         enable 'Plack::Middleware::GeoIP',
             GeoIPDBFile => [
-                               [ $Geoip_database, [ qw(MemoryCache CheckCache) ] ],
+                               [ $Country_db, [ qw(MemoryCache CheckCache) ] ],
                            ],
             GeoIPEnableUTF8 => 1;
         sub { return [ 200, [ 'Content-Type' => 'text/plain' ], [ $_[0]->{GEOIP_COUNTRY_CODE} ] ] };

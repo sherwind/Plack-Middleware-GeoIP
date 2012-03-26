@@ -2,7 +2,7 @@ package Plack::Middleware::GeoIP;
 use strict;
 use warnings;
 use 5.008;
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 use parent qw/Plack::Middleware/;
 use Geo::IP;
 
@@ -66,8 +66,8 @@ sub call {
                 $env->{GEOIP_COUNTRY_NAME}   = $record->country_name;
                 $env->{GEOIP_LATITUDE}       = $record->latitude;
                 $env->{GEOIP_LONGITUDE}      = $record->longitude;
-                $env->{GEOIP_TIME_ZONE}      = $record->time_zone;
                 $env->{GEOIP_CONTINENT_CODE} = $record->continent_code;
+                $env->{GEOIP_TIME_ZONE}      = $record->time_zone   if $record->time_zone;
                 $env->{GEOIP_REGION}         = $record->region      if $record->region;
                 $env->{GEOIP_REGION_NAME}    = $record->region_name if $record->region and $record->region_name;
                 $env->{GEOIP_CITY}           = $record->city        if $record->city;
