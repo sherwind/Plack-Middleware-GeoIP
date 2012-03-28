@@ -1,5 +1,9 @@
 Revision history for Plack-Middleware-GeoIP
 
+0.03    Wed Mar 28 12:26:44 PHT 2012
+          - Require Geo::IP v1.39
+          - Added examples to MANIFEST
+
 0.02    Mon Mar 26 15:05:24 PHT 2012
           - Added examples and another test.
 

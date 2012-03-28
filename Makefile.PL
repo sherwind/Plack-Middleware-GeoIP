@@ -15,7 +15,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Test::More'    => 0,
         'Plack'         => 0,
-        'Geo::IP'       => 0,
+        'Geo::IP'       => 1.39,
     },
     META_MERGE => {
         resources => {
