@@ -85,6 +85,14 @@ GEOIP_COUNTRY_CODE, GEOIP_COUNTRY_NAME, GEOIP_CONTINENT_CODE
   GeoIPDBFile => '/path/to/GeoIP.dat'
   GeoIPDBFile => [ '/path/to/GeoIP.dat', '/path/to/GeoIPCity.dat' ]
 
+Path to GeoIP2 data files.
+
+=item GeoIP2Locales
+
+  GeoIP2Locales => [ 'en', 'de' ]
+
+Array of locale names passed to GeoIP2, to localize GEOIP_COUNTRY_NAME.
+
 =back
 
 =head1 AUTHOR
