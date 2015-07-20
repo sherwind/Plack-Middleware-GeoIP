@@ -16,6 +16,7 @@ WriteMakefile(
         'Test::More'    => 0,
         'Plack'         => 0,
         'Geo::IP'       => 1.39,
+        'GeoIP2'        => 2.001003,
     },
     META_MERGE => {
         resources => {
