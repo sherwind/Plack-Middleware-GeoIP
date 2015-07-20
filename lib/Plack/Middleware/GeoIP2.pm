@@ -84,8 +84,6 @@ GEOIP_COUNTRY_CODE, GEOIP_COUNTRY_NAME, GEOIP_CONTINENT_CODE
 
   GeoIPDBFile => '/path/to/GeoIP.dat'
   GeoIPDBFile => [ '/path/to/GeoIP.dat', '/path/to/GeoIPCity.dat' ]
-  GeoIPDBFile => [ '/path/to/GeoIP.dat', [ '/path/to/GeoIPCity.dat', 'MemoryCache' ] ]
-  GeoIPDBFile => [ '/path/to/GeoIP.dat', [ '/path/to/GeoIPCity.dat', [ qw(MemoryCache CheckCache) ] ] ]
 
 =back
 
