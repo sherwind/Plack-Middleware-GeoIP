@@ -2,7 +2,7 @@ package Plack::Middleware::GeoIP;
 use strict;
 use warnings;
 use 5.008;
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 use parent qw/Plack::Middleware/;
 use Geo::IP;
 
