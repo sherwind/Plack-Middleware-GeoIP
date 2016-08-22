@@ -8,7 +8,6 @@ use GeoIP2::Database::Reader;
 use Carp;
 
 use Plack::Util::Accessor qw( GeoIP2DBFile GeoIP2Locales );
-use Try::Tiny;
 
 sub prepare_app {
     my $self = shift;
@@ -37,13 +36,13 @@ sub call {
     my $ipaddr = $env->{REMOTE_ADDR};
 
     foreach my $gi (@{ $self->{gips} }) {
-        try {
+        eval {
             my $record = $gi->country( ip => $ipaddr );
             $env->{GEOIP_COUNTRY_CODE} = $record->country->iso_code;
             $env->{GEOIP_COUNTRY_NAME} = $record->country->name;
             $env->{GEOIP_CONTINENT_CODE} = $record->continent->name;
-        }
-        catch {
+        };
+        if ($@) {
             $env->{GEOIP_COUNTRY_CODE} = 'ZZ';
             $env->{GEOIP_COUNTRY_NAME} = 'Unknown Country';
             $env->{GEOIP_CONTINENT_CODE} = 'Unknown Continent';
