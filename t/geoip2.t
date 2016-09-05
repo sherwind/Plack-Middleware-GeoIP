@@ -42,6 +42,25 @@ while (<DATA>) {
     run($ip_addr, $expected_country);
 }
 
+# GeoIP2::Database::Reader returns exceptions when encountering local/bad IPs
+{
+    my $app = builder {
+        enable sub {
+            my $app = shift;
+            sub { $_[0]->{REMOTE_ADDR} = '10.164.153.148'; $app->($_[0])};
+        };
+        enable 'Plack::Middleware::GeoIP2',
+            GeoIP2DBFile => $Country_db;
+        sub { return [ 200, [ 'Content-Type' => 'text/plain' ], [ $_[0]->{GEOIP_COUNTRY_CODE} ] ] };
+    };
+
+    test_psgi $app, sub {
+        my $cb = shift;
+        my $res = $cb->(GET '/');
+        is $res->content, 'ZZ';
+    };
+}
+
 done_testing;
 
 __DATA__

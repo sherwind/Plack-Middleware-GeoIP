@@ -36,10 +36,16 @@ sub call {
     my $ipaddr = $env->{REMOTE_ADDR};
 
     foreach my $gi (@{ $self->{gips} }) {
-        if (my $record = $gi->country( ip => $ipaddr ) ) {
+        eval {
+            my $record = $gi->country( ip => $ipaddr );
             $env->{GEOIP_COUNTRY_CODE} = $record->country->iso_code;
             $env->{GEOIP_COUNTRY_NAME} = $record->country->name;
             $env->{GEOIP_CONTINENT_CODE} = $record->continent->name;
+        };
+        if ($@) {
+            $env->{GEOIP_COUNTRY_CODE} = 'ZZ';
+            $env->{GEOIP_COUNTRY_NAME} = 'Unknown Country';
+            $env->{GEOIP_CONTINENT_CODE} = 'Unknown Continent';
         }
     }
 
@@ -75,6 +81,9 @@ The following PSGI environment variables are set by this middleware:
 GeoIP Country Edition:
 
 GEOIP_COUNTRY_CODE, GEOIP_COUNTRY_NAME, GEOIP_CONTINENT_CODE
+
+When REMOTE_ADDR is an invalid/unknown IP, this module will set 'ZZ',
+'Unknown Country', and 'Unknown Continent' for the above variables.
 
 =head1 CONFIGURATION
 
