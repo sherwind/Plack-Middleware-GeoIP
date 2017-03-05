@@ -2,7 +2,7 @@ package Plack::Middleware::GeoIP2;
 use strict;
 use warnings;
 use 5.008;
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 use parent qw/Plack::Middleware/;
 use GeoIP2::Database::Reader;
 use Carp;
